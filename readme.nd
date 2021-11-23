@@ -1,0 +1,5 @@
+    START-UP-MANAGER
+
+To run the programm you need to run start.py file it will automaticly create the shortcut in the needed directory to run the app on bootup and intially run the app as well as install all the needed dependencies.
+
+

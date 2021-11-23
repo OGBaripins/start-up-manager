@@ -1,58 +1,68 @@
 import tkinter as tk
-from tkinter import filedialog, Text
-from log import get_logger
-from configSetup import *
-from dataBase import *
-
-import os
-
+from PIL import ImageTk
+import PIL.Image
+from tkinter import *
+from config.log import  get_logger
+from os import listdir
+from events import relaxingEvent, programmingEvent, gamingEvent, studyingEvent, workoutEvent
 
 logger = get_logger(__name__)
-logger.info('Logger has been initialized')
+logger.info("App has started")
+
+# Reading pictures for labels
+def readPictures():
+    pictureDict = {}
+    try:
+        for i in listdir("./pikturez"):
+            split = i.split(".")
+            pictureDict[split[0].strip()] = i.strip()
+        logger.info("Pictures read successfully")
+        return pictureDict
+    except:
+        logger.error("Pictures could not be read")
+
+# Creating base for GUI
+pictureDict = readPictures()
 root = tk.Tk()
-
-# DBChecker()
-# addData("spotify", "1.0.1.0.9")
-# addData("Discord", "1.0.0.0")
-# readData()
-
-
 canvas = tk.Canvas(root, width=1920, height=1080, bg="#007a5a")
 root.attributes("-fullscreen", True)
-canvas.pack()
 
-
+# Creating Labels with pictures
 try:
-    frame1 = tk.Frame(root, bg="black")
+    img1 = ImageTk.PhotoImage(PIL.Image.open("./pikturez/"+pictureDict["gaming"]))
+    frame1 = Label(root, bg="black", image = img1)
     frame1.place(width=400, height=250, x=250, y=100)
+    frame1.bind("<ButtonPress-1>",lambda event : gamingEvent())
+    frame1.pack
 
-    frame2 = tk.Frame(root, bg="black")
+    img2 = ImageTk.PhotoImage(PIL.Image.open("./pikturez/"+pictureDict["programming"]))
+    frame2 = Label(root, bg="black", image = img2)
     frame2.place(width=400, height=250, x=750, y=100)
+    frame2.bind("<Button-1>",lambda event : programmingEvent())
+    frame2.pack
 
-    frame3 = tk.Frame(root, bg="black")
+    img3 = ImageTk.PhotoImage(PIL.Image.open("./pikturez/"+pictureDict["relaxing"]))
+    frame3 = Label(root, bg="black", image = img3)
     frame3.place(width=400, height=250, x=1250, y=100)
+    frame3.bind("<Button-1>",lambda event : relaxingEvent())
+    frame3.pack
 
-    frame2_1 = tk.Frame(root, bg="black")
+    img4 = ImageTk.PhotoImage(PIL.Image.open("./pikturez/"+pictureDict["studying"]))
+    frame2_1 = Label(root, bg="black", image = img4)
     frame2_1.place(width=400, height=250, x=250, y=420)
+    frame2_1.bind("<Button-1>",lambda event : studyingEvent())
+    frame2_1.pack
 
-    frame2_2 = tk.Frame(root, bg="black")
+    img5 = ImageTk.PhotoImage(PIL.Image.open("./pikturez/"+pictureDict["workout"]))
+    frame2_2 = Label(root, bg="black", image = img5)
     frame2_2.place(width=400, height=250, x=750, y=420)
-
-    frame2_3 = tk.Frame(root, bg="black")
-    frame2_3.place(width=400, height=250, x=1250, y=420)
-
-    frame3_1 = tk.Frame(root, bg="black")
-    frame3_1.place(width=400, height=250, x=250, y=740)
-
-    frame3_2 = tk.Frame(root, bg="black")
-    frame3_2.place(width=400, height=250, x=750, y=740)
-
-    frame3_3 = tk.Frame(root, bg="black")
-    frame3_3.place(width=400, height=250, x=1250, y=740)
-except:
-    logger.critical('Frames could not be created')
+    frame2_2.bind("<Button-1>",lambda event : workoutEvent())
+    frame2_2.pack
+except Exception as e:
+    logger.critical('Frames could not be created\n'+"Err: "+e)
 
 logger.info("All of the frames were created")
-
-
+canvas.pack()
 root.mainloop()
+
+
