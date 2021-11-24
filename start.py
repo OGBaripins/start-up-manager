@@ -6,7 +6,7 @@ from dataBase import MigrateData
 createShortcut()
 DefConfigSetup()
 MigrateData()
-# Testing all requirments as well as running the app if tests have been passed
 
-import config.testing
+# Testing all requirments as well as running the app if tests have been passed
+import config.testing as testing
 import app
